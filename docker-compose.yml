@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+  ea_api:
+    image: ea_api
+    container_name: ea_api
+    build:
+      context: .
+      dockerfile: ProductAPI/Dockerfile
+    restart: on-failure
+    ports:
+      - 5002:8001
+    networks:
+      - ea_network
+
+  ea_webapp:
+    image: ea_webapp
+    container_name: ea_webapp
+    build:
+      context: .
+      dockerfile: EAWebApp/Dockerfile
+    restart: on-failure
+    ports:
+      - 5001:8000
+    depends_on:
+      - ea_api
+    networks:
+      - ea_network
+
+networks:
+   ea_network:
